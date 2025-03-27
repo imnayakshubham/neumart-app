@@ -91,6 +91,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
     )
   }
 
+  const quantityOptions = Array.from({ length: 10 }, (_, i) => i + 1)
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid gap-8 md:grid-cols-2">
@@ -125,7 +126,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                 onChange={handleQuantityChange}
                 className="rounded-md border border-input bg-background px-3 py-2"
               >
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                {quantityOptions.map((num) => (
                   <option key={num} value={num}>
                     {num}
                   </option>
@@ -137,10 +138,6 @@ export default function ProductPage({ params }: { params: { id: string } }) {
               <Button size="lg" className="flex-1" onClick={handleAddToCart}>
                 <ShoppingCart className="mr-2 h-5 w-5" />
                 Add to Cart
-              </Button>
-              <Button size="lg" variant="outline">
-                <Heart className="mr-2 h-5 w-5" />
-                Wishlist
               </Button>
             </div>
           </div>

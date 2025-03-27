@@ -3,7 +3,7 @@ import type { Product } from "./types"
 const products: Product[] = [
   {
     id: "prod_1",
-    name: "NeoPod Smart Speaker",
+    name: "NeuMart NeoPod Smart Speaker",
     description:
       "Voice-controlled smart speaker with ambient lighting and premium sound quality. Control your smart home devices with simple voice commands.",
     price: 129.99,
@@ -12,7 +12,7 @@ const products: Product[] = [
   },
   {
     id: "prod_2",
-    name: "HoloLens AR Glasses",
+    name: "NeuMart HoloLens AR Glasses",
     description:
       "Augmented reality glasses for immersive experiences. Overlay digital content on your real-world environment for work and entertainment.",
     price: 299.99,
@@ -21,7 +21,7 @@ const products: Product[] = [
   },
   {
     id: "prod_3",
-    name: "QuantumX Wireless Earbuds",
+    name: "NeuMart QuantumX Wireless Earbuds",
     description:
       "Noise-cancelling earbuds with 24-hour battery life. Crystal clear audio with deep bass and comfortable all-day wear design.",
     price: 89.99,
@@ -30,16 +30,16 @@ const products: Product[] = [
   },
   {
     id: "prod_4",
-    name: "NeoCharge Wireless Charging Pad",
+    name: "NeuMart NeoCharge Wireless Charging Pad",
     description:
       "Fast wireless charging for all compatible devices. Sleek, minimalist design with LED indicators and foreign object detection.",
     price: 49.99,
-    image: "https://images.unsplash.com/photo-1618577608401-46f4a95e0e4d?q=80&w=1000&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1543472750-506bacbf5808?q=80&w=1000&auto=format&fit=crop",
     category: "Accessories",
   },
   {
     id: "prod_5",
-    name: "PulseTrack Fitness Band",
+    name: "NeuMart PulseTrack Fitness Band",
     description:
       "Advanced fitness tracking with heart rate monitoring, sleep analysis, and workout detection. Water-resistant design for all activities.",
     price: 79.99,
@@ -48,7 +48,7 @@ const products: Product[] = [
   },
   {
     id: "prod_6",
-    name: "SkyDrone Pro",
+    name: "NeuMart SkyDrone Pro",
     description:
       "4K camera drone with obstacle avoidance, 30-minute flight time, and 3-axis gimbal for ultra-smooth footage. Includes carrying case.",
     price: 399.99,
@@ -57,7 +57,7 @@ const products: Product[] = [
   },
   {
     id: "prod_7",
-    name: "NeoDesk Smart Lamp",
+    name: "NeuMart NeoDesk Smart Lamp",
     description:
       "Adjustable desk lamp with wireless charging base, color temperature control, and app connectivity. Perfect for home office setups.",
     price: 69.99,
@@ -66,7 +66,7 @@ const products: Product[] = [
   },
   {
     id: "prod_8",
-    name: "VortexBook Ultra",
+    name: "NeuMart VortexBook Ultra",
     description:
       "Ultra-thin laptop with 4K touchscreen display, 16GB RAM, 512GB SSD, and all-day battery life. Includes premium aluminum chassis.",
     price: 1299.99,
@@ -75,7 +75,7 @@ const products: Product[] = [
   },
   {
     id: "prod_9",
-    name: "NeoWatch Series X",
+    name: "NeuMart NeoWatch Series X",
     description:
       "Advanced smartwatch with health monitoring, GPS, and 5-day battery life. Water-resistant to 50m with customizable watch faces.",
     price: 249.99,
@@ -84,16 +84,16 @@ const products: Product[] = [
   },
   {
     id: "prod_10",
-    name: "UltraGrip Phone Case",
+    name: "NeuMart UltraGrip Phone Case",
     description:
       "Premium phone case with military-grade drop protection, antimicrobial coating, and wireless charging compatibility.",
     price: 34.99,
-    image: "https://images.unsplash.com/photo-1541877590-a1c2a6c4f9b7?q=80&w=1000&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1592320402243-605cc3e935f7?q=80&w=1000&auto=format&fit=crop",
     category: "Accessories",
   },
   {
     id: "prod_11",
-    name: "SoundWave Bluetooth Speaker",
+    name: "NeuMart SoundWave Bluetooth Speaker",
     description:
       "Portable Bluetooth speaker with 360° sound, 20-hour battery life, and waterproof design. Perfect for outdoor adventures.",
     price: 79.99,
@@ -102,7 +102,7 @@ const products: Product[] = [
   },
   {
     id: "prod_12",
-    name: "PowerBank Pro 20000mAh",
+    name: "NeuMart PowerBank Pro 20000mAh",
     description:
       "High-capacity power bank with fast charging, dual USB ports, and LED power indicator. Charges multiple devices simultaneously.",
     price: 59.99,
@@ -111,7 +111,7 @@ const products: Product[] = [
   },
   {
     id: "prod_13",
-    name: "SmartHome Hub Controller",
+    name: "NeuMart SmartHome Hub Controller",
     description:
       "Central hub for all your smart home devices with voice control, automation scheduling, and energy monitoring features.",
     price: 149.99,
@@ -120,7 +120,7 @@ const products: Product[] = [
   },
   {
     id: "prod_14",
-    name: "VR Gaming Headset",
+    name: "NeuMart VR Gaming Headset",
     description:
       "Immersive virtual reality headset with 4K resolution per eye, spatial audio, and advanced motion tracking for gaming and experiences.",
     price: 349.99,
@@ -129,7 +129,7 @@ const products: Product[] = [
   },
   {
     id: "prod_15",
-    name: "ProGamer Mechanical Keyboard",
+    name: "NeuMart ProGamer Mechanical Keyboard",
     description:
       "RGB mechanical gaming keyboard with customizable key switches, macro programming, and aircraft-grade aluminum construction.",
     price: 129.99,
@@ -138,7 +138,7 @@ const products: Product[] = [
   },
   {
     id: "prod_16",
-    name: "UltraWide Curved Monitor",
+    name: "NeuMart UltraWide Curved Monitor",
     description:
       "34-inch curved gaming monitor with 144Hz refresh rate, 1ms response time, and HDR support for immersive gaming and productivity.",
     price: 499.99,

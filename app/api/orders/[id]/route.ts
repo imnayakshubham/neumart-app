@@ -13,11 +13,9 @@ export async function GET(request: Request, { params }: { params: { id: string }
     const order = getOrderById(orderId)
 
     if (!order) {
-      console.log(`Order not found: ${orderId}`)
       return NextResponse.json({ success: false, message: "Order not found" }, { status: 404 })
     }
 
-    console.log(`Order found: ${orderId}`)
 
     return NextResponse.json({
       success: true,

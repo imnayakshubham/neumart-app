@@ -10,8 +10,6 @@ export async function DELETE(request: Request, { params }: { params: { code: str
             return NextResponse.json({ success: false, message: "Discount code is required" }, { status: 400 })
         }
 
-        console.log({ code })
-
         const success = deleteDiscountCode(code)
 
         if (!success) {
