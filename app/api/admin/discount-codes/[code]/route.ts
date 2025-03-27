@@ -1,10 +1,9 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { deleteDiscountCode } from "@/lib/store"
 
-export async function DELETE(request: Request, { params }: { params: { code: string } }) {
+export async function DELETE(request: NextRequest, context: { params: { code: string } }) {
     try {
-        const newParams = await params
-        const code = newParams.code
+        const code = context.params.code
 
         if (!code) {
             return NextResponse.json({ success: false, message: "Discount code is required" }, { status: 400 })
