@@ -23,13 +23,13 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { DEFAULT_ORDER_THRESHOLD } from "@/lib/store"
+import { DEFAULT_ORDER_DISCOUNT_PERCENT, DEFAULT_ORDER_THRESHOLD } from "@/lib/store"
 import { useToast } from "@/hooks/use-toast"
 
 export default function AdminPage() {
   const [stats, setStats] = useState<AdminStats | null>(null)
   const [loading, setLoading] = useState(true)
-  const [discountPercentage, setDiscountPercentage] = useState("10")
+  const [discountPercentage, setDiscountPercentage] = useState<number | string>(stats?.discountPercentage ?? DEFAULT_ORDER_DISCOUNT_PERCENT)
   const [orderThreshold, setOrderThreshold] = useState<number | string>(stats?.orderThreshold ?? DEFAULT_ORDER_THRESHOLD)
   const [isGenerating, setIsGenerating] = useState(false)
   const [activeTab, setActiveTab] = useState("overview")
@@ -73,7 +73,7 @@ export default function AdminPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          percentage: Number.parseInt(discountPercentage),
+          percentage: discountPercentage ? Number.parseInt(discountPercentage.toString()) : DEFAULT_ORDER_DISCOUNT_PERCENT,
           orderThreshold: orderThreshold ? Number.parseInt(orderThreshold.toString()) : DEFAULT_ORDER_THRESHOLD,
         }),
       })

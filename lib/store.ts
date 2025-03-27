@@ -2,12 +2,15 @@ import type { CartItem, DiscountCode, Order } from "./types"
 import { generateDiscountCode, generateId } from "./utils"
 
 export const DEFAULT_ORDER_THRESHOLD = 1
+export const DEFAULT_ORDER_DISCOUNT_PERCENT = 10
+
 
 interface Store {
   orders: Order[]
   discountCodes: DiscountCode[]
   orderCount: number
   orderThreshold: number
+  discountPercentage: number
 }
 
 
@@ -16,6 +19,7 @@ export const store: Store = {
   discountCodes: [],
   orderCount: 0,
   orderThreshold: DEFAULT_ORDER_THRESHOLD,
+  discountPercentage: DEFAULT_ORDER_DISCOUNT_PERCENT
 }
 
 export function placeOrder(items: CartItem[], discountCode?: string | null): Order {
@@ -54,6 +58,7 @@ export function placeOrder(items: CartItem[], discountCode?: string | null): Ord
   store.orderCount++
 
   if (store.orderCount % store.orderThreshold === 0) {
+    generateNewDiscountCode(DEFAULT_ORDER_DISCOUNT_PERCENT)
   }
 
   return order

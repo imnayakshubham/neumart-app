@@ -39,5 +39,6 @@ export interface AdminStats {
   ordersUntilNextDiscount: number
   orderThreshold: number
   recentOrders?: Order[]
+  discountPercentage?: number
 }
 
