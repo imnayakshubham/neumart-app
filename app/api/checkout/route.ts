@@ -27,8 +27,6 @@ export async function POST(request: Request) {
       await markDiscountAsUsed(discountCode)
     }
 
-    console.log("Order created:", order.id)
-
     return NextResponse.json({
       success: true,
       message: "Order placed successfully",

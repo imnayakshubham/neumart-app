@@ -56,9 +56,6 @@ export function placeOrder(items: CartItem[], discountCode?: string | null): Ord
   if (store.orderCount % store.orderThreshold === 0) {
   }
 
-  console.log(`Order added to store. Total orders: ${store.orders.length}`)
-  console.log(`Order details:`, order)
-
   return order
 }
 

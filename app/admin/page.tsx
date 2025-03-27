@@ -34,7 +34,6 @@ export default function AdminPage() {
   const [isGenerating, setIsGenerating] = useState(false)
   const [activeTab, setActiveTab] = useState("overview")
   const { toast } = useToast()
-  console.log({ stats })
 
   useEffect(() => {
     const fetchStats = async () => {

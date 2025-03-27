@@ -26,7 +26,12 @@ export default function Header() {
   }
 
   const navItems = [
-    { name: "Orders", path: "/orders" },
+    {
+      name: "Orders", path: "/orders", icon: <User className="h-4 w-4" />
+    },
+    {
+      name: "Admin", path: "/admin", icon: <User className="h-4 w-4" />
+    },
   ]
 
   if (!mounted) {
@@ -42,16 +47,14 @@ export default function Header() {
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
         <nav className="hidden md:flex md:items-center md:gap-6">
           {navItems.map((item) => (
             <Link
               key={item.path}
               href={item.path}
-              className={`text-sm font-medium transition-colors hover:text-primary ${pathname === item.path ? "text-primary" : "text-muted-foreground"
-                }`}
+              className={`flex items-center gap-1 text-sm font-medium transition-colors hover:text-primary ${pathname === item.path ? "text-primary" : "text-muted-foreground"}`}
             >
-              {item.name}
+              {item.icon} {item.name}
             </Link>
           ))}
         </nav>
@@ -67,20 +70,13 @@ export default function Header() {
               )}
             </Button>
           </Link>
-          <Link href="/admin" className="hidden md:block">
-            <Button variant="ghost" size="icon">
-              <User className="h-5 w-5" />
-            </Button>
-          </Link>
 
-          {/* Mobile Menu Button */}
           <Button variant="ghost" size="icon" className="md:hidden" onClick={toggleMenu}>
             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
       {isMenuOpen && (
         <div className="absolute left-0 top-16 z-50 w-full bg-background p-4 shadow-lg md:hidden">
           <nav className="flex flex-col space-y-4">
@@ -88,21 +84,13 @@ export default function Header() {
               <Link
                 key={item.path}
                 href={item.path}
-                className={`text-sm font-medium transition-colors hover:text-primary ${pathname === item.path ? "text-primary" : "text-muted-foreground"
+                className={`text-sm flex items-center gap-1 font-medium transition-colors hover:text-primary ${pathname === item.path ? "text-primary" : "text-muted-foreground"
                   }`}
                 onClick={closeMenu}
               >
-                {item.name}
+                {item.icon} {item.name}
               </Link>
             ))}
-            <Link
-              href="/admin"
-              className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-              onClick={closeMenu}
-            >
-              <User className="h-4 w-4" />
-              Admin
-            </Link>
           </nav>
         </div>
       )}
