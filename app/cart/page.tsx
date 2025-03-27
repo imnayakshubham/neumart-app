@@ -94,9 +94,12 @@ export default function CartPage() {
           description: "Thank you for your purchase!",
         })
 
-        setTimeout(() => {
-          router.push(`/orders/${data.orderId}`)
-        }, 300)
+        const timer = setTimeout(() => {
+          clearCart();
+          router.push(`/orders/${data.orderId}`);
+        }, 200);
+
+        clearTimeout(timer)
       } else {
         toast({
           title: "Checkout failed",
