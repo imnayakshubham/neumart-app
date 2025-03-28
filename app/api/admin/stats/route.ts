@@ -3,7 +3,7 @@ import { getAdminStats } from "@/lib/store"
 
 export async function GET() {
   try {
-    const stats = getAdminStats()
+    const stats = await getAdminStats()
 
     return NextResponse.json({
       success: true,

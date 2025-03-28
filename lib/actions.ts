@@ -1,10 +1,14 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import { store } from "@/lib/store"
+import { connectDB } from "./db"
+import DiscountCode from "./models/DiscountCodeSchema"
 
 export async function applyDiscountCode(code: string) {
-  const discountCode = store.discountCodes.find((discount) => discount.code === code && !discount.used)
+  await connectDB()
+  const discountCode = await DiscountCode.findOne(
+    { code: code, used: false },
+  )
 
   if (!discountCode) {
     return {
@@ -20,10 +24,15 @@ export async function applyDiscountCode(code: string) {
 }
 
 export async function markDiscountAsUsed(code: string) {
-  const discountIndex = store.discountCodes.findIndex((discount) => discount.code === code && !discount.used)
 
-  if (discountIndex !== -1) {
-    store.discountCodes[discountIndex].used = true
+  const discountCode = await DiscountCode.findOneAndUpdate(
+    { code: code, used: false },
+    { $set: { used: true } },
+    { new: true }
+  ).lean()
+
+
+  if (discountCode) {
     revalidatePath("/admin")
     return true
   }

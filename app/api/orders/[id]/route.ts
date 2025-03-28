@@ -10,7 +10,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
       return NextResponse.json({ success: false, message: "Order ID is required" }, { status: 400 })
     }
 
-    const order = getOrderById(orderId)
+    const order = await getOrderById(orderId)
 
     if (!order) {
       return NextResponse.json({ success: false, message: "Order not found" }, { status: 404 })

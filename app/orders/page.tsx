@@ -65,18 +65,18 @@ export default function OrdersPage() {
 
       <div className="grid gap-4">
         {orders.map((order) => (
-          <Link key={order.id} href={`/orders/${order.id}`}>
+          <Link key={order._id} href={`/orders/${order._id}`}>
             <Card className="transition-all hover:shadow-md">
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg">Order #{order.id.slice(0, 8)}</CardTitle>
+                  <CardTitle className="text-lg">Order #{order._id.slice(0, 8)}</CardTitle>
                   <ChevronRight className="h-5 w-5 text-muted-foreground" />
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">Placed on {formatDate(order.date)}</p>
+                    <p className="text-sm text-muted-foreground">Placed on {formatDate(order.createdAt)}</p>
                     <p className="font-medium">
                       ${order.total.toFixed(2)}
                       {order.discountApplied && (

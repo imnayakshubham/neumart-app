@@ -1,15 +1,17 @@
-import { NextRequest, NextResponse } from "next/server"
 import { deleteDiscountCode } from "@/lib/store"
+import { NextRequest, NextResponse } from "next/server"
 
 export async function DELETE(request: NextRequest, context: { params: { code: string } }) {
     try {
         const code = context.params.code
 
+        console.log({ code })
+
         if (!code) {
             return NextResponse.json({ success: false, message: "Discount code is required" }, { status: 400 })
         }
 
-        const success = deleteDiscountCode(code)
+        const success = await deleteDiscountCode(code)
 
         if (!success) {
             return NextResponse.json(

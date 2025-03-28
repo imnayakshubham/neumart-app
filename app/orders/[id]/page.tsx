@@ -119,7 +119,7 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
             <ArrowLeft className="h-4 w-4" />
           </Link>
         </Button>
-        <h1 className="text-3xl font-bold tracking-tight">Order #{order.id.slice(0, 8)}</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Order #{order._id.slice(0, 8)}</h1>
       </div>
 
       <div className="grid gap-8 md:grid-cols-3">
@@ -178,7 +178,7 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <Badge variant={order.status === "Delivered" ? "default" : "outline"}>{order.status}</Badge>
-                <p className="text-sm text-muted-foreground">Placed on {formatDate(order.date)}</p>
+                <p className="text-sm text-muted-foreground">Placed on {formatDate(order.createdAt)}</p>
               </div>
 
               <Separator />

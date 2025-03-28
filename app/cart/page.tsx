@@ -5,13 +5,14 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Minus, Plus, Trash2 } from "lucide-react"
 import Image from "next/image"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { applyDiscountCode } from "@/lib/actions"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import Link from "next/link"
 import { useToast } from "@/hooks/use-toast"
+import { DiscountCode } from "@/lib/types"
 
 export default function CartPage() {
   const { items, updateItemQuantity, removeItem, clearCart, totalPrice } = useCart()
@@ -20,8 +21,36 @@ export default function CartPage() {
   const [discountAmount, setDiscountAmount] = useState(0)
   const [isApplyingDiscount, setIsApplyingDiscount] = useState(false)
   const [isCheckingOut, setIsCheckingOut] = useState(false)
+  const [coupons, setCoupons] = useState<DiscountCode[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const { toast } = useToast()
   const router = useRouter()
+  const userId = 1
+
+  useEffect(() => {
+    async function fetchCoupons() {
+      try {
+        const response = await fetch(`/api/coupons/${userId}`)
+        const data = await response.json()
+
+        if (response.ok && data.success) {
+          setCoupons(data.coupons)
+        } else {
+          throw new Error(data.message || "Failed to fetch coupons")
+        }
+      } catch (err: any) {
+        setError(err.message || "Something went wrong")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    if (userId) {
+      fetchCoupons()
+    }
+  }, [userId])
+
 
   const handleApplyDiscount = async () => {
     if (!discountCode.trim()) {
@@ -186,9 +215,14 @@ export default function CartPage() {
               ))}
             </div>
           </div>
+          <div className="hidden lg:flex pt-4 justify-end">
+            <Button onClick={handleCheckout} disabled={isCheckingOut}>
+              {isCheckingOut ? "Processing..." : "Checkout"}
+            </Button>
+          </div>
         </div>
 
-        <div>
+        <div className="flex gap-8 flex-col">
           <Card>
             <CardHeader>
               <CardTitle>Order Summary</CardTitle>
@@ -230,11 +264,59 @@ export default function CartPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button className="w-full" onClick={handleCheckout} disabled={isCheckingOut}>
-                {isCheckingOut ? "Processing..." : "Checkout"}
-              </Button>
+              klsfdjalfladjkfj
             </CardFooter>
           </Card>
+
+          <div>
+            <Card>
+              <CardHeader>
+                <CardTitle>Coupouns</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex justify-between">
+                  <span>Subtotal</span>
+                  <span>${totalPrice.toFixed(2)}</span>
+                </div>
+
+                {discountApplied && (
+                  <div className="flex justify-between text-primary">
+                    <span>Discount</span>
+                    <span>-${discountAmount.toFixed(2)}</span>
+                  </div>
+                )}
+
+                <Separator />
+
+                <div className="flex justify-between font-bold">
+                  <span>Total</span>
+                  <span>${(totalPrice - (discountApplied ? discountAmount : 0)).toFixed(2)}</span>
+                </div>
+
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Discount code"
+                    value={discountCode}
+                    onChange={(e) => setDiscountCode(e.target.value)}
+                    disabled={discountApplied || isApplyingDiscount}
+                  />
+                  <Button
+                    variant="outline"
+                    onClick={handleApplyDiscount}
+                    disabled={discountApplied || isApplyingDiscount}
+                  >
+                    Apply
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        <div className="flex lg:hidden pt-4 justify-end">
+          <Button className="w-full" onClick={handleCheckout} disabled={isCheckingOut}>
+            {isCheckingOut ? "Processing..." : "Checkout"}
+          </Button>
         </div>
       </div>
     </div>

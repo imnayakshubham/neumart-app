@@ -11,7 +11,6 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
 import { CircleDollarSign, Package, ShoppingBag, Tag, Trash2 } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -23,8 +22,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { DEFAULT_ORDER_DISCOUNT_PERCENT, DEFAULT_ORDER_THRESHOLD } from "@/lib/store"
 import { useToast } from "@/hooks/use-toast"
+import { DEFAULT_ORDER_DISCOUNT_PERCENT, DEFAULT_ORDER_THRESHOLD } from "@/lib/constants"
 
 export default function AdminPage() {
   const [stats, setStats] = useState<AdminStats | null>(null)
@@ -252,11 +251,11 @@ export default function AdminPage() {
                 ) : stats?.recentOrders?.length ? (
                   <div className="space-y-4">
                     {stats.recentOrders.map((order) => (
-                      <div key={order.id} className="flex items-center justify-between">
+                      <div key={order._id} className="flex items-center justify-between">
                         <div className="space-y-1">
-                          <p className="font-medium">Order #{order.id.slice(0, 8)}</p>
+                          <p className="font-medium">Order #{order._id.slice(0, 8)}</p>
                           <p className="text-sm text-muted-foreground">
-                            {new Date(order.date).toLocaleDateString()} · {order.items.length} items
+                            {new Date(order.createdAt).toLocaleDateString()} · {order.items.length} items
                           </p>
                         </div>
                         <div className="text-right">
@@ -418,36 +417,22 @@ export default function AdminPage() {
                     </div>
                   ) : stats?.discountCodes.length ? (
                     <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <Label>Filter by status</Label>
-                        <Select defaultValue="all">
-                          <SelectTrigger className="w-32">
-                            <SelectValue placeholder="Status" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="all">All</SelectItem>
-                            <SelectItem value="active">Active</SelectItem>
-                            <SelectItem value="used">Used</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
 
                       <Separator />
-
                       <div className="max-h-[300px] overflow-y-auto space-y-2 pr-2">
-                        {stats.discountCodes.map((code) => (
-                          <div key={code.code} className="rounded-lg border p-3">
+                        {stats.discountCodes.map((discountCode) => (
+                          <div key={discountCode.code} className="rounded-lg border p-3">
                             <div className="flex items-center justify-between">
                               <div>
                                 <div className="flex items-center gap-2">
-                                  <p className="font-medium">{code.code}</p>
-                                  <Badge variant={code.used ? "outline" : "default"}>
-                                    {code.used ? "Used" : "Active"}
+                                  <p className="font-medium">{discountCode.code}</p>
+                                  <Badge variant={discountCode.used ? "outline" : "default"}>
+                                    {discountCode.used ? "Used" : "Active"}
                                   </Badge>
                                 </div>
-                                <p className="text-sm text-muted-foreground">{code.percentage}% off</p>
+                                <p className="text-sm text-muted-foreground">{discountCode.percentage}% off</p>
                               </div>
-                              {!code.used && (
+                              {!discountCode.used && (
                                 <AlertDialog>
                                   <AlertDialogTrigger asChild>
                                     <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive">
@@ -465,7 +450,7 @@ export default function AdminPage() {
                                     <AlertDialogFooter>
                                       <AlertDialogCancel>Cancel</AlertDialogCancel>
                                       <AlertDialogAction
-                                        onClick={() => handleDeleteDiscountCode(code.code)}
+                                        onClick={() => handleDeleteDiscountCode(discountCode.code)}
                                         className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                                       >
                                         Delete

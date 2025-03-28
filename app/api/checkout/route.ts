@@ -21,7 +21,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, message: "Invalid request: items are malformed" }, { status: 400 })
     }
 
-    const order = placeOrder(items, discountCode)
+    const order = await placeOrder(items, discountCode)
+
+    if (!order) {
+      return NextResponse.json({
+        success: false,
+        message: "Failed to place an Order",
+      }, { status: 400 })
+    }
 
     if (discountCode && order.discountApplied) {
       await markDiscountAsUsed(discountCode)
@@ -30,7 +37,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       message: "Order placed successfully",
-      orderId: order.id,
+      orderId: order._id,
     })
   } catch (error) {
     console.error("Checkout error:", error)

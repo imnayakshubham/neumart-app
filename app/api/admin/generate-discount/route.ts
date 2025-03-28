@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server"
-import { generateNewDiscountCode, updateOrderThreshold } from "@/lib/store"
+import { updateOrderThreshold } from "@/lib/store"
+import DiscountCode from "@/lib/models/DiscountCodeSchema"
+import { generateDiscountCode } from "@/lib/utils"
+import { connectDB } from "@/lib/db"
 
 export async function POST(request: Request) {
   try {
@@ -14,12 +17,19 @@ export async function POST(request: Request) {
         { status: 400 },
       )
     }
-
+    console.log({ percentage, orderThreshold })
     if (typeof orderThreshold === "number" && orderThreshold > 0) {
-      updateOrderThreshold(orderThreshold)
+      updateOrderThreshold(orderThreshold, percentage)
     }
 
-    const discountCode = generateNewDiscountCode(percentage)
+    await connectDB()
+    const code = generateDiscountCode()
+
+    const discountCodePayload = {
+      code,
+      percentage,
+    }
+    const discountCode = await DiscountCode.create(discountCodePayload)
 
     return NextResponse.json({
       success: true,

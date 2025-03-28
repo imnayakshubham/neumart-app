@@ -3,7 +3,7 @@ import { getOrders } from "@/lib/store"
 
 export async function GET() {
   try {
-    const orders = getOrders()
+    const orders = await getOrders()
 
     return NextResponse.json({
       success: true,

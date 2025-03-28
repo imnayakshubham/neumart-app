@@ -12,7 +12,7 @@ export interface CartItem extends Product {
 }
 
 export interface Order {
-  id: string
+  _id: string
   date: string
   items: CartItem[]
   subtotal: number
@@ -20,12 +20,13 @@ export interface Order {
   status: "Processing" | "Shipped" | "Delivered"
   discountApplied: boolean
   discountCode?: string
-  discountAmount: number
+  discountAmount: number,
+  createdAt: string
 }
 
 export interface DiscountCode {
   code: string
-  percentage: number
+  percentage: number,
   used: boolean
 }
 
