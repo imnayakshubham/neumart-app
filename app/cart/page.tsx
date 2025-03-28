@@ -88,18 +88,12 @@ export default function CartPage() {
       const data = await response.json()
 
       if (data.success) {
-        clearCart()
         toast({
           title: "Order placed successfully",
           description: "Thank you for your purchase!",
         })
-
-        const timer = setTimeout(() => {
-          clearCart();
-          router.push(`/orders/${data.orderId}`);
-        }, 200);
-
-        clearTimeout(timer)
+        router.push(`/orders/${data.orderId}`);
+        clearCart();
       } else {
         toast({
           title: "Checkout failed",
