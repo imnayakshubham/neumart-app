@@ -5,7 +5,6 @@ import { store } from "@/lib/store"
 
 export async function applyDiscountCode(code: string) {
   const discountCode = store.discountCodes.find((discount) => discount.code === code && !discount.used)
-  console.log({ discountCode, store })
 
   if (!discountCode) {
     return {
