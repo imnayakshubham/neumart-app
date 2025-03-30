@@ -341,9 +341,8 @@ export default function CartPage() {
 
       </div>
       <div className="flex w-full py-2 justify-between sticky bottom-0 bg-background items-center ">
-        <div className="flex justify-between font-bold">
-          <span>Total</span>
-          <span>${(totalPrice - (discountApplied ? discountAmount : 0)).toFixed(2)}</span>
+        <div className="flex justify-between font-bold gap-2">
+          <span>Total: ${(totalPrice - (discountApplied ? discountAmount : 0)).toFixed(2)}</span>
         </div>
         <Button onClick={handleCheckout} disabled={isCheckingOut}>
           {isCheckingOut ? "Processing..." : "Checkout"}
