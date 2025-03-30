@@ -67,7 +67,6 @@ export async function placeOrder(items: CartItem[], discountCode?: string | null
 
     const config = await getOrCreateConfig({ user_id: 1 })
     if (config) {
-      console.log({ config })
       if (config?.orderCount % config.orderThreshold === 0) {
         generateNewDiscountCode(config.orderThreshold)
       } else {
@@ -137,7 +136,6 @@ export async function getAdminStats() {
       ordersUntilNextDiscount,
       orderThreshold: config?.orderThreshold,
       recentOrders: orders.slice(0, 5),
-
     }
   } catch (error) {
     return null

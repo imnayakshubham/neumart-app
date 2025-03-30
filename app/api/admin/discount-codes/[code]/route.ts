@@ -5,8 +5,6 @@ export async function DELETE(request: NextRequest, context: { params: { code: st
     try {
         const code = context.params.code
 
-        console.log({ code })
-
         if (!code) {
             return NextResponse.json({ success: false, message: "Discount code is required" }, { status: 400 })
         }

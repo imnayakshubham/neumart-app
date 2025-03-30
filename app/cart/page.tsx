@@ -3,7 +3,7 @@
 import { useCart } from "@/lib/hooks/use-cart"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Minus, Plus, Trash2 } from "lucide-react"
+import { Minus, Plus, Tag, Trash2 } from "lucide-react"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
@@ -13,6 +13,11 @@ import { Separator } from "@/components/ui/separator"
 import Link from "next/link"
 import { useToast } from "@/hooks/use-toast"
 import { DiscountCode } from "@/lib/types"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Badge } from "@/components/ui/badge"
+import { RadioGroup } from "@radix-ui/react-radio-group"
+import { RadioGroupItem } from "@/components/ui/radio-group"
+import { Label } from "@/components/ui/label"
 
 export default function CartPage() {
   const { items, updateItemQuantity, removeItem, clearCart, totalPrice } = useCart()
@@ -31,7 +36,7 @@ export default function CartPage() {
   useEffect(() => {
     async function fetchCoupons() {
       try {
-        const response = await fetch(`/api/coupons/${userId}`)
+        const response = await fetch(`/api/coupons`)
         const data = await response.json()
 
         if (response.ok && data.success) {
@@ -51,9 +56,17 @@ export default function CartPage() {
     }
   }, [userId])
 
+  const removeApplyDiscount = () => {
+    setIsApplyingDiscount(false)
+    setDiscountCode("")
+    setDiscountAmount(0)
+    setDiscountApplied(false)
+  }
 
-  const handleApplyDiscount = async () => {
-    if (!discountCode.trim()) {
+
+  const handleApplyDiscount = async (code?: string) => {
+    const discountCoupounCode = code ? code : discountCode
+    if (!discountCoupounCode.trim()) {
       toast({
         title: "Error",
         description: "Please enter a discount code",
@@ -64,7 +77,7 @@ export default function CartPage() {
 
     setIsApplyingDiscount(true)
     try {
-      const result = await applyDiscountCode(discountCode)
+      const result = await applyDiscountCode(discountCoupounCode)
 
       if (result.success) {
         setDiscountApplied(true)
@@ -154,6 +167,12 @@ export default function CartPage() {
     )
   }
 
+  const handleChange = (value: string) => {
+    setDiscountApplied(false)
+    setDiscountCode(value);
+    handleApplyDiscount(value)
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="mb-8 text-3xl font-bold tracking-tight">Your Cart</h1>
@@ -215,11 +234,11 @@ export default function CartPage() {
               ))}
             </div>
           </div>
-          <div className="hidden lg:flex pt-4 justify-end">
+          {/* <div className="hidden lg:flex pt-4 justify-end">
             <Button onClick={handleCheckout} disabled={isCheckingOut}>
               {isCheckingOut ? "Processing..." : "Checkout"}
             </Button>
-          </div>
+          </div> */}
         </div>
 
         <div className="flex gap-8 flex-col">
@@ -256,16 +275,24 @@ export default function CartPage() {
                 />
                 <Button
                   variant="outline"
-                  onClick={handleApplyDiscount}
+                  onClick={() => handleApplyDiscount()}
                   disabled={discountApplied || isApplyingDiscount}
                 >
                   Apply
                 </Button>
               </div>
+              {discountApplied && <div className="flex justify-end w-full">
+                <Button
+                  className="bg-red-500"
+                  onClick={() => {
+                    removeApplyDiscount()
+                  }}
+                >
+                  Remove Code
+                </Button>
+              </div>
+              }
             </CardContent>
-            <CardFooter>
-              klsfdjalfladjkfj
-            </CardFooter>
           </Card>
 
           <div>
@@ -273,51 +300,54 @@ export default function CartPage() {
               <CardHeader>
                 <CardTitle>Coupouns</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex justify-between">
-                  <span>Subtotal</span>
-                  <span>${totalPrice.toFixed(2)}</span>
-                </div>
-
-                {discountApplied && (
-                  <div className="flex justify-between text-primary">
-                    <span>Discount</span>
-                    <span>-${discountAmount.toFixed(2)}</span>
+              <CardContent>
+                {loading ? (
+                  <div className="space-y-2">
+                    <Skeleton className="h-12 w-full" />
+                    <Skeleton className="h-12 w-full" />
+                  </div>
+                ) : coupons.length ? (
+                  <RadioGroup value={discountCode} onValueChange={handleChange}>
+                    <div className="space-y-3">
+                      {coupons.map((code) => (
+                        <div key={code.code} className="flex items-center justify-between rounded-lg border p-3">
+                          <Label key={code.code} htmlFor={code.code} className="flex gap-2 justify-between w-full cursor-pointer">
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <p className="font-medium">{code.code}</p>
+                                <Badge variant="outline" className="text-xs">
+                                  {code.percentage}% off
+                                </Badge>
+                              </div>
+                              <p className="text-xs text-muted-foreground">Active, unused</p>
+                            </div>
+                          </Label>
+                          <RadioGroupItem value={code.code} id={code.code} />
+                        </div>
+                      ))}
+                    </div>
+                  </RadioGroup>
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-6 text-center">
+                    <Tag className="mb-2 h-8 w-8 text-muted-foreground" />
+                    <p className="text-muted-foreground">No active discount codes</p>
                   </div>
                 )}
-
-                <Separator />
-
-                <div className="flex justify-between font-bold">
-                  <span>Total</span>
-                  <span>${(totalPrice - (discountApplied ? discountAmount : 0)).toFixed(2)}</span>
-                </div>
-
-                <div className="flex gap-2">
-                  <Input
-                    placeholder="Discount code"
-                    value={discountCode}
-                    onChange={(e) => setDiscountCode(e.target.value)}
-                    disabled={discountApplied || isApplyingDiscount}
-                  />
-                  <Button
-                    variant="outline"
-                    onClick={handleApplyDiscount}
-                    disabled={discountApplied || isApplyingDiscount}
-                  >
-                    Apply
-                  </Button>
-                </div>
               </CardContent>
             </Card>
           </div>
         </div>
 
-        <div className="flex lg:hidden pt-4 justify-end">
-          <Button className="w-full" onClick={handleCheckout} disabled={isCheckingOut}>
-            {isCheckingOut ? "Processing..." : "Checkout"}
-          </Button>
+
+      </div>
+      <div className="flex w-full py-2 justify-between sticky bottom-0 bg-background items-center ">
+        <div className="flex justify-between font-bold">
+          <span>Total</span>
+          <span>${(totalPrice - (discountApplied ? discountAmount : 0)).toFixed(2)}</span>
         </div>
+        <Button onClick={handleCheckout} disabled={isCheckingOut}>
+          {isCheckingOut ? "Processing..." : "Checkout"}
+        </Button>
       </div>
     </div>
   )

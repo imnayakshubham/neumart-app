@@ -17,7 +17,6 @@ export async function POST(request: Request) {
         { status: 400 },
       )
     }
-    console.log({ percentage, orderThreshold })
     if (typeof orderThreshold === "number" && orderThreshold > 0) {
       updateOrderThreshold(orderThreshold, percentage)
     }
